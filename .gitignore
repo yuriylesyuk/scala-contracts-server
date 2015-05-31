@@ -1,5 +1,8 @@
 *.class
 *.log
+.classpath
+.project
+.settings/
 
 # sbt specific
 .cache
@@ -10,8 +13,15 @@ target/
 lib_managed/
 src_managed/
 project/boot/
+project/project/
+project/target/
 project/plugins/project/
 
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+/bin/
+
+# AppEngine specific
+src/main/webapp/WEB-INF/classes/
+src/main/webapp/WEB-INF/lib/
