@@ -24,12 +24,14 @@ object LiftRest extends RestHelper with LazyLogging{
         ("xx" -> "A xx") ~
         ("yy" -> "A yy")
         
-     case Options( _,  req ) => OkResponse()
+      case Options( _,  req ) => OkResponse()
      
-     case "echoexcontr" :: Nil JsonPost ( (jsongram, req) ) => JsonResponse( echoexcontr(jsongram) )
-      //case "echoexcontr" :: Nil JsonGet req => JsonResponse( echoexcontr("{\"val\": 3}") )
+      case "echoexcontr" :: Nil JsonPost ( (jsongram, req) ) => JsonResponse( echoexcontr(jsongram) )
       
+
       case "dot" :: Nil Post req => PlainTextResponse( dot( req.json.get ) )
+
+      case "expvalchart" :: Nil Post req => PlainTextResponse( expvalchart( req.json.get ) )
     })
     
     def init(): Unit = {
@@ -52,6 +54,11 @@ object LiftRest extends RestHelper with LazyLogging{
     ContractsAPI.computeContact(jsonval.extract[ExContr])
   }
   
+  def expvalchart( jsonval: JValue ): String = {
+    // TODO: add check for probs contractId - return nothing in the case:
+    // -- expected value is meaningless for the probabilities it relies on
+    ContractsAPI.expValChart(jsonval.extract[ExContr])
+  }
 }
 
   

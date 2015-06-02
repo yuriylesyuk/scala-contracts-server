@@ -13,18 +13,18 @@ case class ExContr( contract: String, arg1: Double, arg2: Double, image: Boolean
 object ContractsAPI {
     def sanitize(d:Double):Double = Math.min( Math.floor(d), 12.0)
 
-    def computeContact(exContr: ExContr) ={
-      val tolerance = 0.001
-      
-      val testK = andPr( liftPr((d:Double)=>d==100, takePr(10, bigK[Double](100))))
-     
-      //val testProb = probabilityLattice( (int)exContr.arg2 ).sum - 1 < tolerance
-      
+    private def makePr1(exContr: ExContr): PR[Double] = {
       val xm = ExampleModel.makeModel(mkDate(0))
       val evalX=evalC(xm,USD)
     
       val c1:Contract = zeroCouponBond(mkDate(exContr.arg1.toInt),exContr.arg2,USD)
-      val pr1 = evalX(c1)
+      evalX(c1)
+    }
+    
+    def computeContact(exContr: ExContr): String ={
+      val tolerance = 0.001
+       
+      val pr1 = makePr1(exContr)      
       
       val li = new LatticeImage()
           
@@ -33,4 +33,9 @@ object ContractsAPI {
       dotImageString
     }
   
+    def expValChart(exContr: ExContr): String = {
+      val pr1 = makePr1(exContr)
+      
+      GoogleCharts.chartUrl( expectedValuePr(pr1) )
+    }
 }

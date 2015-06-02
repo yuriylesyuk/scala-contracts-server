@@ -4,6 +4,9 @@
 .project
 .settings/
 
+# OS
+.DS_Store
+
 # sbt specific
 .cache
 .history
