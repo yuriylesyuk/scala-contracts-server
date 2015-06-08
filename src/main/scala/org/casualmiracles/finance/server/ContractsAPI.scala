@@ -21,6 +21,11 @@ object ContractsAPI {
       evalX(c1)
     }
     
+    def lattice( exContr: ExContr): PR[Double] = {
+      val pr1= makePr1(exContr)
+      pr1
+    }
+    
     def computeContact(exContr: ExContr): String ={
       val tolerance = 0.001
        

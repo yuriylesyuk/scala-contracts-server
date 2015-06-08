@@ -28,6 +28,7 @@ object LiftRest extends RestHelper with LazyLogging{
      
       case "echoexcontr" :: Nil JsonPost ( (jsongram, req) ) => JsonResponse( echoexcontr(jsongram) )
       
+      case "lattice" :: Nil JsonPost ( (jsongram, req) ) => JsonResponse( lattice(jsongram) )
 
       case "dot" :: Nil Post req => PlainTextResponse( dot( req.json.get ) )
 
@@ -48,6 +49,11 @@ object LiftRest extends RestHelper with LazyLogging{
      
      decompose(excontr)
    }
+  
+  def lattice(jsonval: JValue): JValue = {
+    
+    decompose( ContractsAPI.lattice(jsonval.extract[ExContr]) )
+  }
   
   def dot( jsonval: JValue ): String = {
     
